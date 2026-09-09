@@ -8,6 +8,6 @@ namespace ToDo.Api.Interfaces
         public Task<IEnumerable<Category>> GetByUserIdAsync(int userId);
         public Task<Category> CreateAsync(Category category);
         public Task<Category?> UpdateAsync(Category category, int id);
-        public Task<Category> DeleteAsync(int id);
+        public Task<Category?> DeleteAsync(int id);
     }
 }

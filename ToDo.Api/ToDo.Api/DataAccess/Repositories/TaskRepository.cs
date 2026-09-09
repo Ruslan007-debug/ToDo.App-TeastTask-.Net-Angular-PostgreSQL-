@@ -19,7 +19,7 @@ namespace ToDo.Api.DataAccess.Repositories
             return task;
         }
 
-        public async Task<TaskItem> DeleteAsync(int id)
+        public async Task<TaskItem?> DeleteAsync(int id)
         {
             var deleting = await _context.Tasks.FindAsync(id);
             if (deleting == null)

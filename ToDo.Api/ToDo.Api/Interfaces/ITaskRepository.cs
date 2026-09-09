@@ -13,6 +13,6 @@ namespace ToDo.Api.Interfaces
             int pageSize);
         public Task<TaskItem> CreateAsync(TaskItem task);
         public Task<TaskItem?> UpdateAsync(TaskItem task, int id);
-        public Task<TaskItem> DeleteAsync(int id);
+        public Task<TaskItem?> DeleteAsync(int id);
     }
 }

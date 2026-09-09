@@ -19,7 +19,7 @@ namespace ToDo.Api.DataAccess.Repositories
             return category;
         }
 
-        public async Task<Category> DeleteAsync(int id)
+        public async Task<Category?> DeleteAsync(int id)
         {
             var deleting = await _context.Categories.FindAsync(id);
             if (deleting == null)
