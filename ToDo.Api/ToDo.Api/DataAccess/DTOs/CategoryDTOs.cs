@@ -1,4 +1,6 @@
-﻿namespace ToDo.Api.DataAccess.DTOs
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ToDo.Api.DataAccess.DTOs
 {
     public class CategoryDTOs
     {
@@ -11,11 +13,15 @@
 
         public class CreateCategoryDTO
         {
+            [Required]
+            [MaxLength(100)]
             public string Name { get; set; } = string.Empty;
         }
 
         public class UpdateCategoryDTO
         {
+            [Required]
+            [MaxLength(100)]
             public string Name { get; set; } = string.Empty;
         }
     }

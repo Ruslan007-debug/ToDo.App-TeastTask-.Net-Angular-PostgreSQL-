@@ -5,7 +5,7 @@ namespace ToDo.Api.Mappers
 {
     public static class CategoryMapper
     {
-        public static CategoryDTO ToCategoryDTO(Category category)
+        public static CategoryDTO ToCategoryDTO(this Category category)
         {
             return new CategoryDTO
             {
@@ -15,7 +15,7 @@ namespace ToDo.Api.Mappers
             };
         }
 
-        public static Category ToCategoryFromCreateDTO(CreateCategoryDTO dto, int userId)
+        public static Category ToCategoryFromCreateDTO(this CreateCategoryDTO dto, int userId)
         {
             return new Category
             {
@@ -24,7 +24,7 @@ namespace ToDo.Api.Mappers
             };
         }
 
-        public static Category ToCategoryFromUpdateDTO(UpdateCategoryDTO dto)
+        public static Category ToCategoryFromUpdateDTO(this UpdateCategoryDTO dto)
         {
             return new Category
             {

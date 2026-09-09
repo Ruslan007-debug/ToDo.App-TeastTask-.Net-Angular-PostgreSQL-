@@ -46,7 +46,7 @@ namespace ToDo.Api.DataAccess.Repositories
             var updating = await _context.Categories.FindAsync(id);
             if (updating == null)
             {
-                return null!;
+                return null;
             }
             updating.Name = category.Name;
             await _context.SaveChangesAsync();

@@ -4,6 +4,8 @@ using System;
 using ToDo.Api.DataAccess.Data;
 using ToDo.Api.DataAccess.Repositories;
 using ToDo.Api.Interfaces;
+using ToDo.Api.Interfaces.ServicesInterfaces;
+using ToDo.Api.Services;
 
 namespace ToDo.Api
 {
@@ -28,6 +30,7 @@ namespace ToDo.Api
             builder.Services.AddScoped<ITaskRepository, TaskRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
