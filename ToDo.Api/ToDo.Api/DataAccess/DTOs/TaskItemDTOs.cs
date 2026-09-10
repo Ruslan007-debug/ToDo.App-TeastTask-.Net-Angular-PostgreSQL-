@@ -1,4 +1,6 @@
-﻿namespace ToDo.Api.DataAccess.DTOs
+﻿using static ToDo.Api.DataAccess.DTOs.CategoryDTOs;
+
+namespace ToDo.Api.DataAccess.DTOs
 {
     public class TaskItemDTOs
     {
@@ -12,6 +14,7 @@
             public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
             public int UserId { get; set; }
             public int? CategoryId { get; set; }
+            public CategoryDTO? Category { get; set; }
         }
         public class CreateTaskItemDTO
         {

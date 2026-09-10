@@ -16,7 +16,9 @@ namespace ToDo.Api.DataAccess.Repositories
         {
             await _context.Tasks.AddAsync(task);
             await _context.SaveChangesAsync();
-            return task;
+            return await _context.Tasks
+                        .Include(t => t.Category)
+                        .FirstAsync(t => t.Id == task.Id);
         }
 
         public async Task<TaskItem?> DeleteAsync(int id)
@@ -31,7 +33,7 @@ namespace ToDo.Api.DataAccess.Repositories
             return deleting;
         }
 
-        public async Task<TaskItem?> GetByIdsAsync(int id)
+        public async Task<TaskItem?> GetByIdAsync(int id)
         {
             return await _context.Tasks.Include(t => t.Category).FirstOrDefaultAsync(t => t.Id == id);
         }
@@ -53,6 +55,7 @@ namespace ToDo.Api.DataAccess.Repositories
 
             var totalCount = await query.CountAsync();
             var items = await query         //отримання задач з пагінацією, приклад: якщо сторінка 1, а розмір сторінки 10, то пропускаємо 0 задач і беремо 10, і тд
+                .OrderByDescending(t => t.CreatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
@@ -72,7 +75,9 @@ namespace ToDo.Api.DataAccess.Repositories
             updating.IsCompleted = task.IsCompleted;
             updating.CategoryId = task.CategoryId;
             await _context.SaveChangesAsync();
-            return updating;
+            return await _context.Tasks
+                        .Include(t => t.Category)
+                        .FirstAsync(t => t.Id == task.Id);
         }
     }
 }

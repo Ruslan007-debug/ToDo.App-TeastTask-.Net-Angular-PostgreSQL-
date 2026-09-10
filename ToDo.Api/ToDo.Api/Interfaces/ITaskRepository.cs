@@ -4,7 +4,7 @@ namespace ToDo.Api.Interfaces
 {
     public interface ITaskRepository
     {
-        public Task<TaskItem?> GetByIdsAsync(int id);
+        public Task<TaskItem?> GetByIdAsync(int id);
         public Task<(IEnumerable<TaskItem> Items, int TotalCount)> GetFilteredAsync(
             int userId,
             string? searchTerm,
