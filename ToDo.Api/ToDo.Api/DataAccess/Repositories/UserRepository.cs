@@ -29,5 +29,28 @@ namespace ToDo.Api.DataAccess.Repositories
         {
             return await _context.Users.FindAsync(id);
         }
+
+        public async Task<User?> GetByRefreshTokenAsync(string refreshToken)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.RefreshToken == refreshToken);
+        }
+
+        public async Task<User?> UpdateAsync(User user, int id)
+        {
+            var existingUser = await _context.Users.FindAsync(id);
+            if (existingUser == null)
+            {
+                return null;
+            }
+
+            existingUser.Email = user.Email;
+            existingUser.PasswordHash = user.PasswordHash;
+            existingUser.RefreshToken = user.RefreshToken;
+            existingUser.RefreshTokenExpiryTime = user.RefreshTokenExpiryTime;
+
+            await _context.SaveChangesAsync();
+
+            return existingUser;
+        }
     }
 }

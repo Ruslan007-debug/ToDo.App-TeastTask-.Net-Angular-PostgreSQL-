@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ToDo.Api.Extensions;
 using ToDo.Api.Interfaces.ServicesInterfaces;
 using static ToDo.Api.DataAccess.DTOs.TaskItemDTOs;
 
+
 namespace ToDo.Api.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/taskitems")]
     public class TaskItemController: ControllerBase
@@ -16,18 +20,25 @@ namespace ToDo.Api.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> GetFiltered(
-            [FromQuery] int userId,
             [FromQuery] string? searchTerm,
             [FromQuery] int? categoryId,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
+            var userId = User.GetUserId();
             var taskItems = await _taskItemService.GetFilteredAsync(userId, searchTerm, categoryId, page, pageSize);
+            
+            if (taskItems == null)
+            {
+                return NotFound();
+            }
+
             return Ok(taskItems);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id, [FromQuery] int userId)
+        public async Task<IActionResult> GetById(int id)
         {
+            var userId = User.GetUserId();
             var taskItem = await _taskItemService.GetByIdAsync(id, userId);
             if (taskItem == null)
             {
@@ -37,8 +48,9 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateTaskItemDTO dto, [FromQuery] int userId)
+        public async Task<IActionResult> Create([FromBody] CreateTaskItemDTO dto)
         {
+            var userId = User.GetUserId();
             var taskItem = await _taskItemService.CreateAsync(dto, userId);
             if (taskItem == null)
             {
@@ -48,8 +60,9 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateTaskItemDTO dto, [FromQuery] int userId)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateTaskItemDTO dto)
         {
+            var userId = User.GetUserId();
             var updatingTask = await _taskItemService.UpdateAsync(id, dto, userId);
             if (updatingTask == null)
             {
@@ -59,8 +72,9 @@ namespace ToDo.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id, [FromQuery] int userId)
+        public async Task<IActionResult> Delete(int id)
         {
+            var userId = User.GetUserId();
             var deletedTask = await _taskItemService.DeleteAsync(id, userId);
             if (deletedTask == null)
             {
