@@ -1,0 +1,115 @@
+<div class="tasks-page">
+
+  <h1>My Tasks</h1>
+
+  <div class="filters">
+    <input
+      type="text"
+      placeholder="Search tasks..."
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="applyFilters()"
+    />
+
+    <select
+      [(ngModel)]="selectedCategoryId"
+      (change)="applyFilters()"
+    >
+      <option [ngValue]="null">
+        All categories
+      </option>
+
+      @for (category of categories; track category.id) {
+        <option [ngValue]="category.id">
+          {{ category.name }}
+        </option>
+      }
+    </select>
+
+    <button (click)="applyFilters()">
+      Search
+    </button>
+  </div>
+
+  @if (isLoading) {
+    <p>Loading...</p>
+  }
+
+  @if (errorMessage) {
+    <p class="error-message">
+      {{ errorMessage }}
+    </p>
+  }
+
+  @if (!isLoading && tasks.length === 0) {
+    <p>No tasks found.</p>
+  }
+
+  @if (!isLoading && tasks.length > 0) {
+    <div class="task-list">
+
+      @for (task of tasks; track task.id) {
+        <div class="task-card">
+
+          <div class="task-info">
+            <h3>{{ task.title }}</h3>
+
+            @if (task.description) {
+              <p>{{ task.description }}</p>
+            }
+
+            <p>
+              Status:
+              {{ task.isCompleted ? 'Completed' : 'Not completed' }}
+            </p>
+
+            <p>
+              Category:
+              {{ task.category?.name ?? 'No category' }}
+            </p>
+
+            <p>
+              Due date:
+              {{ task.dueDate ?? 'No deadline' }}
+            </p>
+          </div>
+
+          <div class="task-actions">
+            <button
+              class="delete-button"
+              (click)="deleteTask(task.id)"
+            >
+              Delete
+            </button>
+          </div>
+
+        </div>
+      }
+
+    </div>
+  }
+
+  @if (!isLoading && totalPages > 0) {
+    <div class="pagination">
+
+      <button
+        (click)="previousPage()"
+        [disabled]="page <= 1"
+      >
+        Previous
+      </button>
+
+      <span>
+        Page {{ page }} of {{ totalPages }}
+      </span>
+
+      <button
+        (click)="nextPage()"
+        [disabled]="page >= totalPages"
+      >
+        Next
+      </button>
+
+    </div>
+  }
+
+</div>

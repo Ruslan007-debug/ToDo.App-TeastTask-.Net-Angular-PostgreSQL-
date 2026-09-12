@@ -74,6 +74,8 @@ export class AuthService
          //метод виходу з системи
 
          isAuthenticated(): boolean { //метод перевірки чи користувач авторизований
-            return this.getAccessToken() !== null;
+            const token = this.getAccessToken();
+
+            return token !== null && token.length > 0;
         }
     }

@@ -45,7 +45,7 @@ namespace ToDo.Api.DataAccess.Repositories
 
             if (!string.IsNullOrEmpty(searchTerm))      //фільтрація по назві задачі
             {
-                query = query.Where(t => t.Title.Contains(searchTerm));
+                query = query.Where(t => EF.Functions.ILike(t.Title, $"%{searchTerm}%"));
             }
 
             if(categoryId.HasValue)         //фільтрація по категорії
@@ -77,7 +77,7 @@ namespace ToDo.Api.DataAccess.Repositories
             await _context.SaveChangesAsync();
             return await _context.Tasks
                         .Include(t => t.Category)
-                        .FirstAsync(t => t.Id == task.Id);
+                        .FirstAsync(t => t.Id == id);
         }
     }
 }
