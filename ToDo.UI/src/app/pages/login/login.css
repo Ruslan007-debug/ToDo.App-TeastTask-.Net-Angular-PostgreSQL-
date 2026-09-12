@@ -1,0 +1,87 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6f8;
+  font-family: Arial, sans-serif;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 32px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.auth-card h1 {
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.subtitle {
+  margin-bottom: 24px;
+  text-align: center;
+  color: #666;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 11px 12px;
+  border: 1px solid #ccc;
+  border-radius: 7px;
+  font-size: 15px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #555;
+}
+
+button {
+  width: 100%;
+  padding: 11px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.error-message {
+  margin-top: 12px;
+  text-align: center;
+  color: #c62828;
+}
+
+.switch-page {
+  margin-top: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.switch-page a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.switch-page a:hover {
+  text-decoration: underline;
+}

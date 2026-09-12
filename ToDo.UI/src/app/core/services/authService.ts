@@ -4,7 +4,8 @@ import {Observable} from 'rxjs';
 import { AuthRequest } from '../../models/authRequestModel';
 import { TokenResponse } from '../../models/tokenResponseModel';
 import { UserModel } from '../../models/userModel';
-import {tap} from 'rxjs/operators';
+import {finalize, tap} from 'rxjs/operators';
+import { RefreshTokenModel } from '../../models/refreshTokenModel';
 
 @Injectable({      //decorator that marks a class as available to be provided and injected as a dependency.
   providedIn: 'root'    //один глобальний екземпляр сервісу, який буде доступний у всьому додатку, типу синглтон
@@ -29,6 +30,18 @@ export class AuthService
                 return this.http.post<UserModel>(`${this.apiUrl}/register`, request); /*метод post відправляє HTTP POST запит на вказаний URL з переданими даними (request) і очікує отримати відповідь
                                                                                          у вигляді об'єкта UserModel */
             }
+
+        refreshToken(): Observable<TokenResponse>{
+            const refreshToken = this.getRefreshToken();
+            const request: RefreshTokenModel = { refreshToken: refreshToken ?? '' };
+
+            return this.http.post<TokenResponse>(`${this.apiUrl}/refresh`, request).pipe(
+                tap(tokens => {
+                    this.saveTokens(tokens); //зберігає токени в локальному сховищі браузера
+                })
+            )
+
+        }
 
         saveTokens(token: TokenResponse): void //метод збереження токена в локальному сховищі браузера
             {
@@ -55,9 +68,12 @@ export class AuthService
         logout(): Observable<void>
             {
                 return this.http.post<void>(`${this.apiUrl}/logout`, {}).pipe(
-                    tap(() => {
-                        this.clearTokens(); //видаляє токени з локального сховища браузера
-                    })
+                    finalize(() => this.clearTokens()) //видаляє токени з локального сховища браузера незавежно від результату запиту(успіх, неуспіх)
                 );
-            } //метод виходу з системи
+            }
+         //метод виходу з системи
+
+         isAuthenticated(): boolean { //метод перевірки чи користувач авторизований
+            return this.getAccessToken() !== null;
+        }
     }

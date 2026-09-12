@@ -53,7 +53,16 @@ namespace ToDo.Api
             builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
             builder.Services.AddControllers();
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AngularClient", policy =>
+                {
+                    policy
+                        .WithOrigins("http://localhost:4200")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
             builder.Services.AddOpenApi();
 
             builder.Services
@@ -91,6 +100,8 @@ namespace ToDo.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseCors("AngularClient");
 
             app.UseAuthentication();
 
